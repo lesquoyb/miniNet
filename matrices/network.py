@@ -2,19 +2,31 @@ from relu import *
 from tanh import *
 from sigmoid import *
 from sigmoid import Sigmoid
+from layer import Layer
+import numpy
 
 class Network():
 
     def __init__(self):
-        self.layers = []
+        self.layers = [Layer([[0, 1, 0],
+                              [0, 1, 0],
+                              [0, 0, 1],
+                              [1, 0, 0]], fn=Sigmoid(), outputs=numpy.array([[0,0,1,1]]).T)]
 
 
 
     def learn(self):
-        self.forward()
-        self.update_error()
-        self.backward()
-        self.adjust()
+        epsilon = 0.1
+        error = 10 * epsilon
+        while abs(error) > epsilon:
+            error = 0
+            for layer in self.layers:
+                layer.forward()
+                error += layer.error
+            error /= len(self.layers)
+            print(error)
+
+        print(self.layers[0].weights)
 
 
     def forward(self):
