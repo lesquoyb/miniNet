@@ -8,13 +8,28 @@ class Network():
     def __init__(self):
         self.layers = []
 
-'''
-LEARN :
-    - forward
-    - total_error
-    - backward
-    - adjust
 
+
+    def learn(self):
+        self.forward()
+        self.update_error()
+        self.backward()
+        self.adjust()
+
+
+    def forward(self):
+        pass
+
+    def update_erro(self):
+        pass
+
+
+    def backward(self):
+        pass
+
+    def adjust(self):
+        pass
+'''
 FORWARD :
     pour chaque couche :
         pour chaque neurone de la couche (curr) :
