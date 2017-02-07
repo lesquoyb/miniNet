@@ -27,13 +27,16 @@ def main():
 
     network = Network()
 
-    network.learn(data, classes, 5) # TEMPORAIRE, car que 4 entree dans l'appel en dessous
+    #network.learn(data, classes, 5) # TEMPORAIRE, car que 4 entree dans l'appel en dessous
 
     error = 0
     for i in range(nBlocks):
         tData = bData[i]
         tClasses = bClasses[i]
-        data = [ b for j,b in enumerate(bData) if j != i]
+        data = []
+        for j,b in enumerate(bData):
+            if j != i:
+                data += b
         classes = []
         for j,b in enumerate(bClasses):
             if j != i:

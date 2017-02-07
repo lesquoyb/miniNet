@@ -11,10 +11,13 @@ class Neuron:
         self.error = 0.0
 
     def addSuccessor(self, neuron):
-        self.outputs += [(neuron, random())]
+        self.outputs += [(neuron, random()*0.5)]
 
     def fn(self, x):
-        return self.value#à implémenter
+        return x#à implémenter
 
     def der(self, x):
-        return self.value #à implémenter
+        return x #à implémenter
+
+    def printer(self) :
+        return str(self.value) + " err: " + str(self.error)

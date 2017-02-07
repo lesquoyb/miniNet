@@ -19,8 +19,6 @@ class Network():
 
         o = Layer(ReLu, 3)
 
-
-
         i.convolution(f1, 2)
         i.convolution(f2, 2)
 
@@ -45,7 +43,7 @@ class Network():
         for i in range(nbData):
             self.forward(data[i])
             for j in range(len(self.outputLayer.neurons)) :
-                nodeValue = int(self.outputLayer.neurons[j].value)
+                nodeValue = int(round(self.outputLayer.neurons[j].value))
                 expectedValue = output[i][j]
                 if  nodeValue != expectedValue :
                     sum += 1
@@ -57,12 +55,16 @@ class Network():
         while error_rate > criterion :
             err = 0
             for i in range(len(inputs)) :
+                #print(" ")
+                #self.draw()
                 self.forward(inputs[i])
                 err += self.update_error(outputs[i])
                 self.backward()
                 self.adjust()
+
+                #self.draw()
             error_rate = self.error_rate(inputs, outputs)
-            print ( "learning : " + str(error_rate) + "% d'erreur   " + str(err) )
+            print ( "learning : " + str(int(error_rate)) + "% d'erreur   " + str(err) )
 
     def forward(self, inputs):
         for layer in self.layers :
@@ -78,7 +80,12 @@ class Network():
                 neuron.value = neuron.fn(neuron.value)
                 for n, w in neuron.outputs:
                     n.value += neuron.value * w
-    #TODO remetre value à 0
+
+        sum = 0
+        for neuron in self.outputLayer.neurons :
+            sum += e**neuron.value
+        for neuron in self.outputLayer.neurons:
+            neuron.value = e**neuron.value / sum
 
 
     def update_error(self, expected):
@@ -100,14 +107,17 @@ class Network():
                 curr.error = error * curr.der(curr.value)
 
     def adjust(self):
-        for layer in self.hiddenLayers :
+        for layer in self.layers :
             for curr in layer.neurons :
                 nOutputs = []
                 for (succ, weight) in curr.outputs :
                     weight += succ.error * curr.value
-                    nOutputs += [(succ, weight)]
+                    nOutputs += [(succ, min(max(weight,-1), 1))]
                 curr.outputs = nOutputs
 
+    def draw(self) :
+        for layer in self.layers :
+            print(layer.neurons[0].printer())
 
 '''
 FORWARD :
