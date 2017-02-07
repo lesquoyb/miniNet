@@ -27,6 +27,8 @@ def main():
 
     network = Network()
 
+    network.learn(data, classes, 5) # TEMPORAIRE, car que 4 entree dans l'appel en dessous
+
     error = 0
     for i in range(nBlocks):
         tData = bData[i]
@@ -36,9 +38,9 @@ def main():
         for j,b in enumerate(bClasses):
             if j != i:
                 classes += b
-        network.learn(data, classes)
+        network.learn(data, classes, 5)
         error += network.error_rate(tData, tClasses)
-    print(str(error/(len(data)*nBlocks)) + "% d'erreur")
+    print(str(error/nBlocks) + "% d'erreur")
 
 
 if __name__ == "__main__":

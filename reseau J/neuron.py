@@ -10,11 +10,11 @@ class Neuron:
         self.value = 0.0
         self.error = 0.0
 
-    def addSuccessor(self, neuron, weight):
-        self.outputs += [(neuron, weight)]
+    def addSuccessor(self, neuron):
+        self.outputs += [(neuron, random())]
 
     def fn(self, x):
-        return value#à implémenter
+        return self.value#à implémenter
 
     def der(self, x):
-        return value #à implémenter
+        return self.value #à implémenter

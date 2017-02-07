@@ -8,8 +8,6 @@ from layer import *
 class Network():
 
     def __init__(self):
-        self.layers = []
-
         i = Layer(Neuron, 4)
 
         f1 = Layer(ReLu, 3)
@@ -17,9 +15,10 @@ class Network():
 
         h1 = Layer(ReLu, 2)
         h2 = Layer(ReLu, 2)
-        h3 = Layer(Sigmoid, 2)
+        h3 = Layer(TanH, 2)
 
         o = Layer(ReLu, 3)
+
 
 
         i.convolution(f1, 2)
@@ -32,31 +31,51 @@ class Network():
         h2.fully_connected(h3)
         h3.fully_connected(o)
 
+        i.fully_connected(h2)
+        i.fully_connected(h3)
 
+        self.layers = [i, f1, f2, h1, h2, h3, o]
         self.hiddenLayers = [f1, f2, h1, h2, h3]
         self.inputLayer = i
         self.outputLayer = o
 
     def error_rate(self, data, output):
         sum = 0
-        for i in range(len(data)):
+        nbData = len(data)
+        for i in range(nbData):
             self.forward(data[i])
-            sum += self.update_error(output[i])
-        return sum
+            for j in range(len(self.outputLayer.neurons)) :
+                nodeValue = int(self.outputLayer.neurons[j].value)
+                expectedValue = output[i][j]
+                if  nodeValue != expectedValue :
+                    sum += 1
+                    break
+        return (sum / nbData) * 100
 
-    def learn(self, inputs, outputs):
-        for nb in range(100):
+    def learn(self, inputs, outputs, criterion):
+        error_rate = 100;
+        while error_rate > criterion :
+            err = 0
             for i in range(len(inputs)) :
                 self.forward(inputs[i])
-                print(self.update_error(outputs[i]))
+                err += self.update_error(outputs[i])
                 self.backward()
                 self.adjust()
-
+            error_rate = self.error_rate(inputs, outputs)
+            print ( "learning : " + str(error_rate) + "% d'erreur   " + str(err) )
 
     def forward(self, inputs):
+        for layer in self.layers :
+            if layer == self.inputLayer :
+                for i in range(len(layer.neurons)) :
+                    layer.neurons[i].value = float(inputs[i])
+            else :
+                for neuron in layer.neurons :
+                    neuron.value = 0.
+
         for layer in self.layers:
             for neuron in layer.neurons:
-                self.value = neuron.fn(self.value)
+                neuron.value = neuron.fn(neuron.value)
                 for n, w in neuron.outputs:
                     n.value += neuron.value * w
     #TODO remetre value à 0
@@ -88,6 +107,7 @@ class Network():
                     weight += succ.error * curr.value
                     nOutputs += [(succ, weight)]
                 curr.outputs = nOutputs
+
 
 '''
 FORWARD :
