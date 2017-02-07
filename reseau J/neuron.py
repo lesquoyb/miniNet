@@ -11,7 +11,7 @@ class Neuron:
         self.error = 0.0
 
     def addSuccessor(self, neuron, weight):
-        self.outputs += (neuron, weight)
+        self.outputs += [(neuron, weight)]
 
     def fn(self, x):
         return 0#à implémenter

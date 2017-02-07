@@ -74,8 +74,7 @@ class Network():
             for curr in layer.neurons :
                 error = 0
 
-                for link in curr.outputs :
-                    (succ, weight) = link
+                for (succ, weight) in curr.outputs :
                     error += succ.error * weight
 
                 curr.error = error * curr.der(curr.value)
