@@ -14,7 +14,7 @@ class Neuron:
         self.outputs += [(neuron, weight)]
 
     def fn(self, x):
-        return 0#à implémenter
+        return value#à implémenter
 
     def der(self, x):
-        return 0 #à implémenter
+        return value #à implémenter

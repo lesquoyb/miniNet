@@ -1,3 +1,4 @@
+from neuron import *
 from relu import *
 from tanh import *
 from sigmoid import *
@@ -9,7 +10,7 @@ class Network():
     def __init__(self):
         self.layers = []
 
-        i = Layer(ReLu, 4)
+        i = Layer(Neuron, 4)
 
         f1 = Layer(ReLu, 3)
         f2 = Layer(ReLu, 3)
@@ -44,12 +45,12 @@ class Network():
         return sum
 
     def learn(self, inputs, outputs):
-
-        for i in range(len(inputs)) :
-
-            self.forward(inputs[i])
-            self.backward()
-            self.adjust()
+        for nb in range(100):
+            for i in range(len(inputs)) :
+                self.forward(inputs[i])
+                print(self.update_error(outputs[i]))
+                self.backward()
+                self.adjust()
 
 
     def forward(self, inputs):
@@ -72,7 +73,6 @@ class Network():
 
 
     def backward(self):
-
         for layer in self.hiddenLayers[-1:0:-1] :
             for curr in layer.neurons :
                 error = 0
