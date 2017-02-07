@@ -53,11 +53,13 @@ class Network():
 
 
     def forward(self, inputs):
-        for i in range(len(self.layers)) :
-            for curr in self.layers[i].neurons :
-                value = 0.0
+        for layer in self.layers:
+            for neuron in layer.neurons:
+                self.value = neuron.fn(self.value)
+                for n, w in neuron.outputs:
+                    n.value += neuron.value * w
+    #TODO remetre value à 0
 
-        pass
 
     def update_error(self, expected):
         total_error = 0.0

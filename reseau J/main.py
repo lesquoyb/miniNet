@@ -36,7 +36,6 @@ def main():
         for j,b in enumerate(bClasses):
             if j != i:
                 classes += b
-        print(classes)
         network.learn(data, classes)
         error += network.error_rate(tData, tClasses)
     print(str(error/(len(data)*nBlocks)) + "% d'erreur")
