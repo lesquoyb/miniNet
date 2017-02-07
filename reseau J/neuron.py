@@ -7,8 +7,8 @@ class Neuron:
     def __init__(self):
         self.outputs = []
 
-        self.value
-        self.error
+        self.value = 0.0
+        self.error = 0.0
 
     def addSuccessor(self, neuron, weight):
         self.outputs += (neuron, weight)

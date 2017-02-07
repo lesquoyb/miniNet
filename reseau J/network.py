@@ -9,16 +9,30 @@ class Network():
     def __init__(self):
         self.layers = []
 
+        i = Layer(ReLu, 4)
+
+        f1 = Layer(ReLu, 3)
+        f2 = Layer(ReLu, 3)
+
         h1 = Layer(ReLu, 2)
         h2 = Layer(ReLu, 2)
         h3 = Layer(Sigmoid, 2)
 
+        o = Layer(ReLu, 3)
+
+
+        i.convolution(f1, 2)
+        i.convolution(f2, 2)
+
+        f1.fully_connected(h1)
+        f2.fully_connected(h1)
+
         h1.fully_connected(h2)
         h2.fully_connected(h3)
+        h3.fully_connected(o)
 
-        self.layers += [h1, h2, h3]
 
-        print (self.layers)
+        self.layers += [i, f1, f2, h1, h2, h3, o]
 
     def learn(self):
         self.forward()
@@ -31,8 +45,6 @@ class Network():
         for i in range(len(self.layers)) :
             for curr in self.layers[i].neurons :
                 value = 0.0
-
-                print (curr)
 
         pass
 
