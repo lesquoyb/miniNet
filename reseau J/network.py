@@ -83,7 +83,14 @@ class Network():
                 curr.error = error * curr.der(curr.value)
 
     def adjust(self):
-        pass
+        for layer in self.hiddenLayers :
+            for curr in layer.neurons :
+                nOutputs = []
+                for (succ, weight) in curr.outputs :
+                    weight += succ.error * curr.value
+                    nOutputs += [(succ, weight)]
+                curr.outputs = nOutputs
+
 '''
 FORWARD :
     pour chaque couche :
