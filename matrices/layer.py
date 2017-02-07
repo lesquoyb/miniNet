@@ -3,11 +3,17 @@ class Layer():
 
 
     def __init__(self, data_in,  fn, outputs):
-        self.inputs = np.array(data_in)
-        self.outputs = np.array(outputs)
+        self.setInputs(data_in)
+        self.setOutputs(outputs)
         self.weights = 2 * np.random.random((len(data_in[0]), 1))-1
         self.function = fn
         self.error = 0
+
+    def setInputs(self, data_in):
+        self.inputs = np.array(data_in)
+
+    def setOutputs(self, outputs):
+        self.outputs = np.array(outputs)
 
 
     def forward(self):

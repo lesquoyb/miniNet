@@ -8,10 +8,8 @@ import numpy
 class Network():
 
     def __init__(self):
-        self.layers = [Layer([[0, 1, 0],
-                              [0, 1, 0],
-                              [0, 0, 1],
-                              [1, 0, 0]], fn=Sigmoid(), outputs=numpy.array([[0,0,1,1]]).T)]
+        data = [[0.5], [0.34], [0.14], [0.02]]
+        self.layers = [Layer(data, fn=ReLu(), outputs=numpy.array([[1],[0],[0]]).T)]
 
 
 
