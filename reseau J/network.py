@@ -64,8 +64,16 @@ class Network():
 
 
     def backward(self):
-        for i in range(len(self.hiddenLayers)) :
-            pass
+
+        for layer in self.hiddenLayers[-1:0:-1] :
+            for curr in layer.neurons :
+                error = 0
+
+                for link in curr.outputs :
+                    (succ, weight) = link
+                    error += succ.error * weight
+
+                curr.error = error * curr.der(curr.value)
 
     def adjust(self):
         pass
