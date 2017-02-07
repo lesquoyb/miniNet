@@ -17,8 +17,6 @@ def parseFile(filename):
 
 def main():
     data, classes = parseFile("iris.data.txt")
-    print(data)
-    print(classes)
     nBlocks = 5
     size = len(data)//nBlocks
     bData = []
@@ -34,7 +32,11 @@ def main():
         tData = bData[i]
         tClasses = bClasses[i]
         data = [ b for j,b in enumerate(bData) if j != i]
-        classes = [ b for j,b in enumerate(bClasses) if j != i]
+        classes = []
+        for j,b in enumerate(bClasses):
+            if j != i:
+                classes += b
+        print(classes)
         network.learn(data, classes)
         error += network.error_rate(tData, tClasses)
     print(str(error/(len(data)*nBlocks) + "% d'erreur"))
