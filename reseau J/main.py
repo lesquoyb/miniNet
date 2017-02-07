@@ -39,7 +39,7 @@ def main():
         print(classes)
         network.learn(data, classes)
         error += network.error_rate(tData, tClasses)
-    print(str(error/(len(data)*nBlocks) + "% d'erreur"))
+    print(str(error/(len(data)*nBlocks)) + "% d'erreur")
 
 
 if __name__ == "__main__":

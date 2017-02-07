@@ -37,15 +37,17 @@ class Network():
         self.outputLayer = o
 
     def error_rate(self, data, output):
-        self.forward(data)
-        return self.update_error(output)
+        sum = 0
+        for i in range(len(data)):
+            self.forward(data[i])
+            sum += self.update_error(output[i])
+        return sum
 
     def learn(self, inputs, outputs):
 
         for i in range(len(inputs)) :
 
             self.forward(inputs[i])
-            print(self.update_error(outputs[i]))
             self.backward()
             self.adjust()
 
@@ -61,7 +63,6 @@ class Network():
         total_error = 0.0
         for i in range(len(self.outputLayer.neurons)) :
             out = self.outputLayer.neurons[i]
-            print(expected)
             err = expected[i] - self.outputLayer.neurons[i].value
             out.error = err * out.der(out.value)
             total_error += 0.5 * err * err
