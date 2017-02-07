@@ -20,7 +20,7 @@ def main():
     print(data)
     print(classes)
     network = Network()
-    network.learn()
+    network.learn([[0,0,0,0],[0,0,0,0]], [[1,0,0],[0,0,1]])
 
 
 if __name__ == "__main__":

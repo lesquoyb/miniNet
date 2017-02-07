@@ -32,13 +32,18 @@ class Network():
         h3.fully_connected(o)
 
 
-        self.layers += [i, f1, f2, h1, h2, h3, o]
+        self.hiddenLayers = [f1, f2, h1, h2, h3]
+        self.inputLayer = i
+        self.outputLayer = o
 
-    def learn(self):
-        self.forward()
-        self.update_error()
-        self.backward()
-        self.adjust()
+    def learn(self, inputs, outputs):
+
+        for i in range(len(inputs)) :
+
+            self.forward()
+            print(self.update_error(outputs[i]))
+            self.backward()
+            self.adjust()
 
 
     def forward(self):
@@ -48,12 +53,19 @@ class Network():
 
         pass
 
-    def update_error(self):
-        pass
+    def update_error(self, expected):
+        total_error = 0.0
+        for i in range(len(self.outputLayer.neurons)) :
+            out = self.outputLayer.neurons[i]
+            err = expected[i] - self.outputLayer.neurons[i].value
+            out.error = err * out.der(out.value)
+            total_error += 0.5 * err * err
+        return total_error
 
 
     def backward(self):
-        pass
+        for i in range(len(self.hiddenLayers)) :
+            pass
 
     def adjust(self):
         pass
